@@ -1,0 +1,50 @@
+<!Doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>BabylonJS Demo</title>
+    <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
+    <style>
+      #canvas {
+        width:100%;
+        height:100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function() {
+        var canvas = document.getElementById("canvas");
+        var engine = new BABYLON.Engine(canvas,true);
+
+        var createScene = function () {
+          var scene = new BABYLON.Scene(engine);
+          scene.clearColor = new BABYLON.Color3.White();
+          var box = BABYLON.Mesh.CreateBox("Box",4.0,scene);
+
+          var camera = new BABYLON.ArcRotateCamera("arcCam",
+            BABYLON.Tools.ToRadians(45),
+            BABYLON.Tools.ToRadians(45),
+            10.0,box.position,scene);
+          camera.wheelPrecision = 100.0;
+
+          camera.attachControl(canvas,true);
+
+          var material = new BABYLON.StandardMaterial("material",scene);
+          material.diffuseTexture = new BABYLON.Texture("seancube.jpg",scene);
+          material.emissiveColor = new BABYLON.Color3.White();
+          box.material = material;
+          return scene;
+        }
+
+        var scene = createScene();
+        engine.runRenderLoop(function(){
+          scene.render();
+        });
+      });
+    </script>
+  </body>
+</html>
